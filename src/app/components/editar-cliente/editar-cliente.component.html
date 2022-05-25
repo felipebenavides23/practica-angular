@@ -1,0 +1,149 @@
+<header id="main-header" class="py-2 bg-info text-white">
+  <div class="container">
+    <div class="row">
+      <div class="col-md-6">
+        <h1><i class="fa-solid fa-user-pen"></i> Editar Cliente</h1>
+      </div>
+    </div>
+  </div>
+</header>
+
+<form #ClienteForm="ngForm" (ngSubmit)="guardaredit(ClienteForm)">
+  <section id="action" class="py-4 mb-4 bg-light">
+    <div class="container">
+      <div class="row">
+        <div class="col-md-3">
+          <a routerLink="/" class="btn btn-secondary me-2">
+            <i class="fa-solid fa-arrow-left-long"></i> regresar al inicio
+          </a>
+        </div>
+
+        <div class="col-md-3">
+          <button type="submit" class="btn btn-success me-2">
+            <i class="fa-regular fa-pen-to-square"></i> Modificar
+          </button>
+        </div>
+        <div class="col-md-3">
+          <button
+            type="button"
+            class="btn btn-danger me-2"
+            (click)="eliminar()"
+          >
+            <!-- -->
+            <i class="fa-solid fa-trash"></i> Eliminar
+          </button>
+        </div>
+      </div>
+    </div>
+  </section>
+  <flash-messages></flash-messages>
+
+  <section id="details">
+    <div class="container">
+      <div class="row">
+        <div class="col">
+          <div class="card">
+            <div class="card-header">
+              <h3>cliente a modificar</h3>
+            </div>
+            <div class="card-body">
+              <div class="mb-3">
+                <label for="nombre" class="form-label">Nombre</label>
+                <input
+                  type="text"
+                  class="form-control"
+                  name="nombre"
+                  id="nombre"
+                  placeholder="Insertar Nombre"
+                  #nombre="ngModel"
+                  [(ngModel)]="cliente.nombre"
+                  [ngClass]="{ 'is-invalid': nombre.errors && nombre.touched }"
+                  required
+                  minlength="2"
+                />
+                <div
+                  [hidden]="!nombre.errors?.['required']"
+                  class="invalid-feedack"
+                >
+                  Nombre requerido
+                </div>
+                <div
+                  [hidden]="!nombre.errors?.['minlength'] "
+                  class="invalid-feedack"
+                >
+                  debe contener almenos 2 caracterres
+                </div>
+              </div>
+              <div class="mb-3">
+                <label for="apellido" class="form-label">Apellido</label>
+                <input
+                  type="text"
+                  class="form-control"
+                  id="apellido"
+                  name="apellido"
+                  placeholder="Insertar Apellido"
+                  #apellido="ngModel"
+                  [(ngModel)]="cliente.apellido"
+                  [ngClass]="{
+                    'is-invalid': apellido.errors && apellido.touched
+                  }"
+                  required
+                  minlength="2"
+                />
+                <div [hidden]="!apellido.errors?.['required']">
+                  apelldio requerido
+                </div>
+                <div [hidden]="!apellido.errors?.['minlength']">
+                  debe contener almenos 2 caracterres
+                </div>
+              </div>
+              <div class="mb-3">
+                <label for="email" class="form-label">Email</label>
+                <input
+                  type="text"
+                  class="form-control"
+                  id="email"
+                  name="email"
+                  placeholder="Insertar Email"
+                  #email="ngModel"
+                  [(ngModel)]="cliente.email"
+                  [ngClass]="{ 'is-invalid': email.errors && email.touched }"
+                  required
+                  pattern="^\w+([\.-]?\w+)*@\w+([\.-]?\w+)*(\.\w{2,3})+$"
+                />
+                <div [hidden]="!email.errors?.['required']">
+                  Email requerido
+                </div>
+                <div [hidden]="!email.errors?.['pattern']">
+                  email no es valido
+                </div>
+              </div>
+
+              <div class="mb-3">
+                <label for="saldo" class="form-label">Saldo</label>
+                <input
+                  type="number"
+                  class="form-control"
+                  id="saldo"
+                  name="saldo"
+                  placeholder="Insertar Saldo"
+                  #saldo="ngModel"
+                  [(ngModel)]="cliente.saldo"
+                  [ngClass]="{ 'is-invalid': saldo.errors || saldo.value <= 0 }"
+                  required
+                  appForbiddenName="0"
+                />
+                <div [hidden]="!saldo.errors?.['required']">
+                  {{ saldo.value }}
+                </div>
+                <div *ngIf="saldo.value <= 0">
+                  tiene que ser mayor o igual que 0
+                </div>
+              </div>
+            </div>
+          </div>
+        </div>
+      </div>
+    </div>
+  </section>
+</form>

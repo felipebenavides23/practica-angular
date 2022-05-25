@@ -1,0 +1,193 @@
+<section id="actions" class="py-4 3b-4 bg-ligth">
+  <div class="container">
+    <div class="row">
+      <div class="col-sm-3">
+        <a
+          type="button"
+          class="btn btn-primary"
+          data-bs-toggle="modal"
+          data-bs-target="#agregarClienteMobal"
+          ><i class="fas fa-plus"></i> agregar cliente</a
+        >
+      </div>
+    </div>
+  </div>
+</section>
+
+<section id="clientes">
+  <div class="container">
+    <div class="row">
+      <div class="col-sm-9">
+        <div class="card mb-2">
+          <div class="card-body">listado clientes</div>
+        </div>
+
+        <table class="table table-dark table-striped">
+          <thead>
+            <tr>
+              <th scope="col">#</th>
+              <th scope="col">nombre</th>
+              <th scope="col">saldo</th>
+              <th scope="col">saldo</th>
+            </tr>
+          </thead>
+          <tbody>
+            <tr *ngFor="let cliente of clientes; let i = index">
+              <th scope="row">{{ i + 1 }}</th>
+              <td>{{ cliente.nombre }} {{ cliente.apellido }}</td>
+              <td>{{ cliente.saldo | currency: "COP":"$" }}</td>
+              <td>
+                <a
+                  routerLink="/cliente/editar/{{ cliente.id }}"
+                  class="btn btn-secondary"
+                  ><i class="fa-regular fa-pen-to-square"></i>
+                  editar
+                </a>
+              </td>
+            </tr>
+          </tbody>
+        </table>
+      </div>
+
+      <!-- tarjetas laterales  -->
+      <div class="col-md-3">
+        <div class="card text-center bg-danger text-white mt-3">
+          <div class="card-body">
+            <h2>Saldo Total</h2>
+            <h3 class="display-4">
+              {{ getSaldototal() | currency: "COP":"$":"1.0" }}
+            </h3>
+          </div>
+        </div>
+        <div class="card text-center bg-success text-white mt-3">
+          <div class="card-body">
+            <h3>Total Clientes</h3>
+            <h4 class="display-4">
+              <i class="fa-solid fa-users"></i>
+              {{ clientes?.length }}
+            </h4>
+          </div>
+        </div>
+      </div>
+    </div>
+  </div>
+</section>
+
+<!-- ventana modal -->
+
+<div class="modal fade" id="agregarClienteMobal">
+  <div class="modal-dialog modal-lg">
+    <div class="modal-content">
+      <div class="modal-header bg-info text-white">
+        <h5 class="modal-title">Agregar Cliente</h5>
+        <button
+          type="button"
+          class="btn-close"
+          data-bs-dismiss="modal"
+          aria-label="Close"
+          #botonCerrar
+        ></button>
+      </div>
+      <flash-messages></flash-messages>
+      <form #ClienteForm="ngForm" (ngSubmit)="agregarCliente(ClienteForm)">
+        <div class="modal-body">
+          <div class="mb-3">
+            <label for="nombre" class="form-label">Nombre</label>
+            <input
+              type="text"
+              class="form-control"
+              name="nombre"
+              id="nombre"
+              placeholder="Insertar Nombre"
+              #nombre="ngModel"
+              [(ngModel)]="cliente.nombre"
+              [ngClass]="{ 'is-invalid': nombre.errors && nombre.touched }"
+              required
+              minlength="2"
+            />
+            <div
+              [hidden]="!nombre.errors?.['required']"
+              class="invalid-feedack"
+            >
+              Nombre requerido
+            </div>
+            <div
+              [hidden]="!nombre.errors?.['minlength'] "
+              class="invalid-feedack"
+            >
+              debe contener almenos 2 caracterres
+            </div>
+          </div>
+          <div class="mb-3">
+            <label for="apellido" class="form-label">Apellido</label>
+            <input
+              type="text"
+              class="form-control"
+              id="apellido"
+              name="apellido"
+              placeholder="Insertar Apellido"
+              #apellido="ngModel"
+              [(ngModel)]="cliente.apellido"
+              [ngClass]="{ 'is-invalid': apellido.errors && apellido.touched }"
+              required
+              minlength="2"
+            />
+            <div [hidden]="!apellido.errors?.['required']">
+              apelldio requerido
+            </div>
+            <div [hidden]="!apellido.errors?.['minlength']">
+              debe contener almenos 2 caracterres
+            </div>
+          </div>
+          <div class="mb-3">
+            <label for="email" class="form-label">Email</label>
+            <input
+              type="text"
+              class="form-control"
+              id="email"
+              name="email"
+              placeholder="Insertar Email"
+              #email="ngModel"
+              [(ngModel)]="cliente.email"
+              [ngClass]="{ 'is-invalid': email.errors && email.touched }"
+              required
+              pattern="^\w+([\.-]?\w+)*@\w+([\.-]?\w+)*(\.\w{2,3})+$"
+            />
+            <div [hidden]="!email.errors?.['required']">Email requerido</div>
+            <div [hidden]="!email.errors?.['pattern']">email no es valido</div>
+          </div>
+
+          <div class="mb-3">
+            <label for="saldo" class="form-label">Saldo</label>
+            <input
+              type="number"
+              class="form-control"
+              id="saldo"
+              name="saldo"
+              placeholder="Insertar Saldo"
+              #saldo="ngModel"
+              [(ngModel)]="cliente.saldo"
+              [ngClass]="{ 'is-invalid': saldo.errors || saldo.value <= 0 }"
+              required
+              appForbiddenName="0"
+            />
+            <div [hidden]="!saldo.errors?.['required']">{{ saldo.value }}</div>
+            <div *ngIf="saldo.value <= 0">
+              tiene que ser mayor o igual que 0
+            </div>
+          </div>
+        </div>
+        <div class="modal-footer">
+          <button
+            type="button"
+            class="btn btn-secondary"
+            data-bs-dismiss="modal"
+          >
+            Cerrar
+          </button>
+          <button type="submit" class="btn btn-primary">Guardar</button>
+        </div>
+      </form>
+    </div>
+  </div>
+</div>

@@ -1,0 +1,49 @@
+<app-pos-cabecero [titulo]="info"></app-pos-cabecero>
+
+<section id="action" class="py-4 mb-4 bg-light">
+  <div class="container">
+    <div class="row">
+      <div class="col-md-3">
+        <a routerLink="/" class="btn btn-secondary me-2">
+          <i class="fa-solid fa-arrow-left-long"></i> regresar al inicio
+        </a>
+      </div>
+
+      <div class="col-md-3">
+        <button type="submit" class="btn btn-success me-2" (click)="guardar()">
+          <i class="fa fa-check"></i> Guardar
+        </button>
+      </div>
+    </div>
+  </div>
+</section>
+
+<section id="configuracion">
+  <div class="container">
+    <div class="row">
+      <div class="col-md-6 mx-auto py-4">
+        <div class="card">
+          <div class="card-header">
+            <h3>Editar configuracion</h3>
+          </div>
+          <div class="card-body">
+            <fieldset class="form-group">
+              <legend>permitir registro de usuarios</legend>
+              <div class="form-check">
+                <label for="config" class="form-check-label">
+                  <input
+                    type="checkbox"
+                    class="form-check-input"
+                    [(ngModel)]="editar.permisoRegistro"
+                    [checked]="editar.permisoRegistro"
+                  />
+                  {{ editar.permisoRegistro ? "si" : "no" }}
+                </label>
+              </div>
+            </fieldset>
+          </div>
+        </div>
+      </div>
+    </div>
+  </div>
+</section>

@@ -1,0 +1,63 @@
+<nav class="navbar navbar-expand-lg navbar-dark bg-dark p-0">
+  <div class="container">
+    <a class="navbar-brand" routerLink="/">control cliente</a>
+    <button
+      class="navbar-toggler"
+      type="button"
+      data-bs-toggle="collapse"
+      data-bs-target="#navbarCollapse"
+    >
+      <span class="navbar-toggler-icon"></span>
+    </button>
+    <div class="collapse navbar-collapse" id="navbarCollapse">
+      <ul class="navbar-nav me-auto mb-2 mb-lg-0">
+        <li *ngIf="islogeding" class="nav-item">
+          <a class="nav-link active" aria-current="page" routerLink="/"
+            >inicio</a
+          >
+        </li>
+      </ul>
+
+      <ul class="navbar-nav ml-auto me-5">
+        <li *ngIf="islogeding" class="nav-item dropdown">
+          <a
+            class="nav-link dropdown-toggle"
+            href="#"
+            id="navbarDropdown"
+            role="button"
+            data-bs-toggle="dropdown"
+            aria-expanded="false"
+          >
+            <i class="fa-solid fa-user"> </i>Bienvenido {{ loggedinuser }}
+          </a>
+          <ul class="dropdown-menu" aria-labelledby="navbarDropdown">
+            <li>
+              <a class="dropdown-item" routerLink="/configuracion">
+                <i class="fa-solid fa-user-gear"> </i>configuracion
+              </a>
+            </li>
+          </ul>
+        </li>
+
+        <div *ngIf="!islogeding && permitirconifg">
+          <a class="nav-link" routerLink="/registrarse">
+            <i class="fa-solid fa-arrow-right-to-bracket"></i> registro
+          </a>
+        </div>
+
+        <li class="nav-item" *ngIf="!islogeding; else logout">
+          <div>
+            <a class="nav-link" routerLink="/login">
+              <i class="fa-solid fa-arrow-right-to-bracket"></i> login
+            </a>
+          </div>
+        </li>
+        <ng-template #logout>
+          <a class="nav-link" (click)="salir()">
+            <i class="fa-solid fa-arrow-right-to-bracket"></i> logout
+          </a>
+        </ng-template>
+      </ul>
+    </div>
+  </div>
+</nav>
